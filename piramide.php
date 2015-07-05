@@ -1,24 +1,31 @@
 <?php
+session_start();
 class Piramide(object):
 
-	def ingresar(self)
-		$i=0;
+	function ingresar(self)
 		for($i;$i<21;$i++)
-
-	def Mostrar(self)
+			$lista[$i] = $_REQUEST["$i"];
+	function Mostrar(self)
 		for($i=0;i<21;$i++)
 			print str(self.lista[i])
 
-	def Nodo(self)
+	function Nodo(self)
 		$a = new nodo($lista[$n]);
 		$a ->pasar;
 		$n = $n + 1;
 
-	def padre(self, num, pos)
+	function Agregar($pos, $val)
+		$lista[$pos] = $val;
+
+	function Devolver($pos)
+		return $lista[$pos]
+	
+
+	/*function padre(self, num, pos)
 		#me devuelve el padre izq o der segun el numero del hijo 
-	def hijo(self, num, pos)
+	function hijo(self, num, pos)
 		#me devuelve el hijo izq o der segun el numero del padre 
-	def hno(self, num, pos)
+	function hno(self, num, pos)
 		#me devuelve el hno izq o der segun el numero del hno
 		for($e=0;$e<21;$e++)
 			if(self.lista[$e]==$num)
@@ -27,18 +34,45 @@ class Piramide(object):
 			return self.lista[$e-1];
 		else
 			return self.lista[$e+1];
-
+		*/
 
 class nodo()
-	def __init__(self, num)
-		self.num = num
-	def pasar(self)
-		if is_null(self.num) 
-			#pasar a otro nodo
+	function __init__($pos, $val)
+		if is_null($val) 
+			$miPiramide->nodo();
+		else
+			$minodo->ResolverPadre($pos, $val);
+			$minodo->ResolverHno($pos, $val);
+			$minodo->ResolverHijo($pos, $val);
+			$miPiramide->Nodo();
+	function ResolverPadre()
+		$valPadreIzq = $Piramide ->Devolver($posPadreIzq);
+		$valPadreDer = $Piramide ->Devolver($posPadreDer);
+		if is_null($valPadreIzq)
+			#nose
 		else 
-			#comenzar a resolver las sumas directas
-			#si el nodo en el que estamos es conocido, debe comenzar a consultar a padres hijos y hnos para resolver las sumas directas
-
+			$valHnoIzq = $valPadreIzq-$val;
+			$miPiramide->Agregar($pos-1, $valHnoIzq);
+		
+		if is_null($valPadreDer)
+			#nose
+		else 
+			$valHnoDer = $valPadreDer-$val;
+			$miPiramide->Agregar($pos-1, $valHnoDer);
+	function ResolverHijo()
+		$valHijoIzq = $Piramide ->Devolver(log2($pos)+$pos+1);
+		$valHijoDer = $Piramide ->Devolver(log2($pos)+$pos+2);
+		if is_null($valPadreIzq)
+			#nose
+		else 
+			$valHijoDer = $valPadreIzq-$val;
+			$miPiramide->Agregar($pos-1, $valHnoIzq);
+		
+		if is_null($valPadreDer)
+			#nose
+		else 
+			$valHnoDer = $valPadreDer-$val;
+			$miPiramide->Agregar($pos-1, $valHnoDer);
 
 
 $miPiramide = new Piramide()
