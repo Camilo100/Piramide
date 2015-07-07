@@ -1,25 +1,38 @@
 <?php
 session_start();
-class Piramide(object):
 
-	function ingresar(self)
+class Piramide{
+var $lista;
+
+	function ingresar(){
 		for($i;$i<21;$i++)
 			$lista[$i] = $_REQUEST["$i"];
-	function Mostrar(self)
-		for($i=0;i<21;$i++)
-			print str(self.lista[i])
+	}
+	function Mostrar(){
+		for($i=0;$i<21;$i++)
+	}
 
-	function Nodo(self)
-		$a = new nodo($lista[$n]);
-		$a ->pasar;
-		$n = $n + 1;
+	function Resolver($pos){
+		if $pos == 22
+			$miPiramide->Resolver(1);
+		$minodo = new nodo($pos, $lista[$pos]);
+		if $minodo->vacio == TRUE
+			$miPiramide->Resolver($pos+1);
+		else
+			$minodo->ResolverPadre($pos, $lista[$pos]);
+			$minodo->ResolverHijo($pos, $lista[$pos]);
+			$this->Resolver($pos+1);
+	}
 
-	function Agregar($pos, $val)
+
+	function Agregar($pos, $val){
 		$lista[$pos] = $val;
-
-	function Devolver($pos)
+	}
+	function Devolver($pos){
 		return $lista[$pos]
-	
+	}
+}
+
 
 	/*function padre(self, num, pos)
 		#me devuelve el padre izq o der segun el numero del hijo 
@@ -36,48 +49,49 @@ class Piramide(object):
 			return self.lista[$e+1];
 		*/
 
-class nodo()
-	function __init__($pos, $val)
+class nodo extends Piramide{
+	function __construct($pos, $val)
+
+
+	function vacio($pos, $val){
 		if is_null($val) 
-			$miPiramide->nodo();
+			return ();
 		else
-			$minodo->ResolverPadre($pos, $val);
-			$minodo->ResolverHno($pos, $val);
-			$minodo->ResolverHijo($pos, $val);
-			$miPiramide->Nodo();
-	function ResolverPadre()
-		$valPadreIzq = $Piramide ->Devolver($posPadreIzq);
-		$valPadreDer = $Piramide ->Devolver($posPadreDer);
-		if is_null($valPadreIzq)
-			#nose
-		else 
-			$valHnoIzq = $valPadreIzq-$val;
+			return False;
+	}
+	function ResolverPadre($pos, $val){
+		$valHnoIzq = $Piramide ->Devolver($pos-1);
+		$valHnoDer = $Piramide ->Devolver($pos+1);
+		if empty($valHnoIzq == false){
+			$valPadreIzq = $valHnoIzq + $val;
 			$miPiramide->Agregar($pos-1, $valHnoIzq);
-		
-		if is_null($valPadreDer)
-			#nose
-		else 
-			$valHnoDer = $valPadreDer-$val;
+		}
+		if empty($valHnoDer) ==fale){
+			$valPadreDer =$valHnoDer+$val;
 			$miPiramide->Agregar($pos-1, $valHnoDer);
-	function ResolverHijo()
+		}
+	}	
+
+	function ResolverHijo($pos, $val){
 		$valHijoIzq = $Piramide ->Devolver(log2($pos)+$pos+1);
 		$valHijoDer = $Piramide ->Devolver(log2($pos)+$pos+2);
-		if is_null($valPadreIzq)
-			#nose
-		else 
+		if (empty($valPadreIzq) == false){
 			$valHijoDer = $valPadreIzq-$val;
 			$miPiramide->Agregar($pos-1, $valHnoIzq);
-		
-		if is_null($valPadreDer)
-			#nose
-		else 
+
+		}
+		if (empty($valPadreDer) == false){
 			$valHnoDer = $valPadreDer-$val;
 			$miPiramide->Agregar($pos-1, $valHnoDer);
+
+		}
+	}
+}		
 
 
 $miPiramide = new Piramide()
 $miPiramide ->ingresar()
-$miPiramide ->resolver()
+$miPiramide ->resolver(1)
 $miPiramide ->Mostrar()
 
 
