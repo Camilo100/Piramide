@@ -1,14 +1,14 @@
-<!DOCTYPE html>
+
 <html>
 <link rel="stylesheet" type="text/css" href="bootstrap-3.3.5-dist/css/bootstrap.css">
 <body>
 <div class="container">
     <div class="row">
-    	<div class="span6">
-           <div class="panel panel-default">
+	   	<div class="span6"> 
+	         <div class="panel panel-default">
                 <div class="panel-heading">
-                    <span class="glyphicon"></span> Piramide</div>
-                <div class="panel-body">
+                    <span class="glyphicon"></span> Piramide (Augsburger, Mirande, Muniz, Capodanno, Cristia)</div>
+               <div class="panel-body">
                 	<form action = "piramide.php">
 						<div class = "center-block1">
 							<input type="int" placeholder = "1" class="form-control" name = "1" ></div><br>
@@ -33,16 +33,17 @@
 						<div class = "center-block6">
 							<input type="int" placeholder = "16" name = "16" class="form-control">
 							<input type="int" placeholder = "17" name = "17" class="form-control">
-							<input type="int" placeholder = "18" name = "18" class="form-control">
+						<input type="int" placeholder = "18" name = "18" class="form-control">
 							<input type="int" placeholder = "19" name = "19" class="form-control">
-							<input type="int" placeholder = "20" name = "20" class="form-control">
+						<input type="int" placeholder = "20" name = "20" class="form-control">
 							<input type="int" placeholder = "21" name = "21" class="form-control"></div><br>
+							<button type="submit" class="btn btn-success btn-sm" action="piramide.php" method="post" >
+                                SAPE</button>
 </div>
 </div>
 </div>
 </div>
 </div>
-
 </form>
 </body>
 </html>
