@@ -3,95 +3,113 @@ session_start();
 
 class Piramide{
 	var $lista;
+	var $flag=0;
+
 
 	function ingresar(){
-		$i=0;
-		for($i;$i<21;$i++)
-			$lista[$i] = $_REQUEST["$i"];
-	}
+		$i=1;
 
-	function Mostrar(){
-		for($i=0;$i<21;$i++){
-			print $lista[$i];
+		for($i;$i<22;$i++){
+			$this->lista[$i] = $_REQUEST["$i"];
 		}
 	}
+
+	function Camilo($pos){
+		
+		return ($this->lista[$pos]);
+	}
+	
+
+	function Mostrar(){
+		for($i=1;$i<22;$i++){
+			print $this->lista[$i];
+			print " ";
+		}
+		exit;
+	}
+
+	
 
 	function Resolver($pos){
 		if ($pos == 22){
+			$this->flag = $this->flag + 1;
 			$this->Resolver(1);
 		}
-		$minodo = new nodo($pos, $lista[$pos]);
-		if ($minodo->vacio($pos, $lista[$pos] ) == TRUE){
+		if ($this->flag == 10){
+			$this->Mostrar();
+			}
+		$minodo = new nodo();
+		if ($minodo->vacio($pos, $this->lista[$pos] ) == 1){
+			
 			$this->Resolver($pos+1);
 		}
 			
 		else{
-			$minodo->ResolverPadre($pos, $lista[$pos]);
-			$minodo->ResolverHijo($pos, $lista[$pos]);
+			
+			$minodo->ResolverPadre($pos, $this->lista[$pos]);
+			$minodo->ResolverHijo($pos, $this->lista[$pos]);
 			$this->Resolver($pos+1);
 		}
 	}
 
-
 	function Agregar($pos, $val){
-		$lista[$pos] = $val;
+		$this->lista[$pos] = $val;
 	}
 
-	function Devolver($pos){
-		return $lista[$pos];
-	}
+	
 }
 
 
-	/*function padre(self, num, pos)
-		#me devuelve el padre izq o der segun el numero del hijo 
-	function hijo(self, num, pos)
-		#me devuelve el hijo izq o der segun el numero del padre 
-	function hno(self, num, pos)
-		#me devuelve el hno izq o der segun el numero del hno
-		for($e=0;$e<21;$e++)
-			if(self.lista[$e]==$num)
-				 break
-		if (pos == "izq")
-			return self.lista[$e-1];
-		else
-			return self.lista[$e+1];
-		*/
-
 class nodo extends Piramide{
-	function __construct($pos, $val){}
-
-
 	function vacio($pos, $val){
-		if (is_null($val))
-			return ;
-		else
-			return False;
-	}
-	function ResolverPadre($pos, $val){
-		$valHnoIzq = $this ->Devolver($pos-1);
-		$valHnoDer = $this ->Devolver($pos+1);
-		if (empty($valHnoIzq == false)){
-			$valPadreIzq = $valHnoIzq + $val;
-			$miPiramide->Agregar($pos-1, $valHnoIzq);
+		if (empty($val)){
+			return (1);
 		}
-		if (empty($valHnoDer) ==false){
-			$valPadreDer =$valHnoDer+$val;
-			$miPiramide->Agregar($pos-1, $valHnoDer);
+	}
+
+	function ResolverPadre($pos, $val){
+		$valHnoIzq = $this->Camilo($pos-1);
+		$valHnoDer = $this->Camilo($pos+1);
+		
+		if (empty($valHnoIzq)){}
+		else
+		{
+			$valPadreIzq = $valHnoIzq + $val;
+			$this->Agregar($pos-1, $valPadreIzq);
+		}
+		if (empty($valHnoDer)){}
+		else
+		{
+			$valPadreDer =$valHnoDer + $val;
+			$this->Agregar($pos-1, $valPadreDer);
 		}
 	}	
 
 	function ResolverHijo($pos, $val){
-		$valHijoIzq = $this ->Devolver(log(($pos)+$pos+1, 2));
-		$valHijoDer = $this ->Devolver(log(($pos)+$pos+2, 2));
-		if (empty($valPadreIzq) == false){
-			$valHijoDer = $valPadreIzq-$val;
-			$miPiramide->Agregar($pos-1, $valHnoIzq);
+
+
+		$posHijoIzq = (log($pos, 2)+ $pos + 2);
+		$posHijoIzq = round($posHijoIzq , 0, PHP_ROUND_HALF_UP);
+		
+		$posHijoDer = (log($pos, 2)+ $pos + 3);
+		$posHijoDer = round($posHijoDer, 0, PHP_ROUND_HALF_UP);
+		$valHijoIzq = $this->Camilo($posHijoIzq);
+		$valHijoDer = $this->Camilo($posHijoDer);
+		
+		
+		if (empty($valHijoIzq)){}
+		else
+		{
+			
+			$valHijoDer =  $val - $valHijoIzq;
+			$this->Agregar($posHijoDer, $valHijoDer);
 
 		}
-		if (empty($valPadreDer) == false){
-			$valHnoDer = $valPadreDer-$val;
-			$miPiramide->Agregar($pos-1, $valHnoDer);
+		if (empty($valHijoDer) ){}
+		else
+		{	
+			$valHijoIzq = $val - $valHijoDer;
+			$this->Agregar($posHijoIzq, $valHijoIzq);
 
 		}
 	}
@@ -101,7 +119,7 @@ class nodo extends Piramide{
 $miPiramide = new Piramide();
 $miPiramide ->ingresar();
 $miPiramide ->resolver(1);
-$miPiramide ->Mostrar();
+
 
 
 
