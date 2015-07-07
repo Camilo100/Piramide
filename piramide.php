@@ -2,34 +2,43 @@
 session_start();
 
 class Piramide{
-var $lista;
+	var $lista;
 
 	function ingresar(){
+		$i=0;
 		for($i;$i<21;$i++)
 			$lista[$i] = $_REQUEST["$i"];
 	}
+
 	function Mostrar(){
-		for($i=0;$i<21;$i++)
+		for($i=0;$i<21;$i++){
+			print $lista[$i];
+		}
 	}
 
 	function Resolver($pos){
-		if $pos == 22
-			$miPiramide->Resolver(1);
+		if ($pos == 22){
+			$this->Resolver(1);
+		}
 		$minodo = new nodo($pos, $lista[$pos]);
-		if $minodo->vacio == TRUE
-			$miPiramide->Resolver($pos+1);
-		else
+		if ($minodo->vacio($pos, $lista[$pos] ) == TRUE){
+			$this->Resolver($pos+1);
+		}
+			
+		else{
 			$minodo->ResolverPadre($pos, $lista[$pos]);
 			$minodo->ResolverHijo($pos, $lista[$pos]);
 			$this->Resolver($pos+1);
+		}
 	}
 
 
 	function Agregar($pos, $val){
 		$lista[$pos] = $val;
 	}
+
 	function Devolver($pos){
-		return $lista[$pos]
+		return $lista[$pos];
 	}
 }
 
@@ -50,31 +59,31 @@ var $lista;
 		*/
 
 class nodo extends Piramide{
-	function __construct($pos, $val)
+	function __construct($pos, $val){}
 
 
 	function vacio($pos, $val){
-		if is_null($val) 
-			return ();
+		if (is_null($val))
+			return ;
 		else
 			return False;
 	}
 	function ResolverPadre($pos, $val){
-		$valHnoIzq = $Piramide ->Devolver($pos-1);
-		$valHnoDer = $Piramide ->Devolver($pos+1);
-		if empty($valHnoIzq == false){
+		$valHnoIzq = $this ->Devolver($pos-1);
+		$valHnoDer = $this ->Devolver($pos+1);
+		if (empty($valHnoIzq == false)){
 			$valPadreIzq = $valHnoIzq + $val;
 			$miPiramide->Agregar($pos-1, $valHnoIzq);
 		}
-		if empty($valHnoDer) ==fale){
+		if (empty($valHnoDer) ==false){
 			$valPadreDer =$valHnoDer+$val;
 			$miPiramide->Agregar($pos-1, $valHnoDer);
 		}
 	}	
 
 	function ResolverHijo($pos, $val){
-		$valHijoIzq = $Piramide ->Devolver(log2($pos)+$pos+1);
-		$valHijoDer = $Piramide ->Devolver(log2($pos)+$pos+2);
+		$valHijoIzq = $this ->Devolver(log(($pos)+$pos+1, 2));
+		$valHijoDer = $this ->Devolver(log(($pos)+$pos+2, 2));
 		if (empty($valPadreIzq) == false){
 			$valHijoDer = $valPadreIzq-$val;
 			$miPiramide->Agregar($pos-1, $valHnoIzq);
@@ -89,10 +98,10 @@ class nodo extends Piramide{
 }		
 
 
-$miPiramide = new Piramide()
-$miPiramide ->ingresar()
-$miPiramide ->resolver(1)
-$miPiramide ->Mostrar()
+$miPiramide = new Piramide();
+$miPiramide ->ingresar();
+$miPiramide ->resolver(1);
+$miPiramide ->Mostrar();
 
 
 
