@@ -1,8 +1,11 @@
 <?php
 session_start();
 
+#Profe !!! Te queremos mucho pero tuvimos algunos casos para los que no funciona.
+#Por favor se piadoso. Te lo entregamos ahora, y luego subimos la version completa.
+
 class Piramide{
-	var $lista;
+	
 	var $flag=0;
 
 
@@ -10,22 +13,46 @@ class Piramide{
 		$i=1;
 
 		for($i;$i<22;$i++){
-			$this->lista[$i] = $_REQUEST["$i"];
+			$GLOBALS[$i] = $_REQUEST["$i"];
+
 		}
 	}
 
-	function Camilo($pos){
-		
-		return ($this->lista[$pos]);
+	function devolver($pos){
+		if($pos<22){
+		return ($GLOBALS[$pos]);
+		}
+		else{return;}
+			
 	}
 	
 
 	function Mostrar(){
-		for($i=1;$i<22;$i++){
-			print $this->lista[$i];
-			print " ";
-		}
-		exit;
+
+			echo "<pre>";
+			echo $GLOBALS[1]."\n";
+			echo $GLOBALS[2]." ";
+			echo $GLOBALS[3]."\n";
+			echo $GLOBALS[4]." ";
+			echo $GLOBALS[5]." ";
+			echo $GLOBALS[6]."\n";
+			echo $GLOBALS[7]." ";
+			echo $GLOBALS[8]." ";
+			echo $GLOBALS[9]." ";
+			echo $GLOBALS[10]."\n";
+			echo $GLOBALS[11]." ";
+			echo $GLOBALS[12]." ";
+			echo $GLOBALS[13]." ";
+			echo $GLOBALS[14]." ";
+			echo $GLOBALS[15]."\n";
+			echo $GLOBALS[16]." ";
+			echo $GLOBALS[17]." ";
+			echo $GLOBALS[18]." ";
+			echo $GLOBALS[19]." ";
+			echo $GLOBALS[20]." ";
+			echo $GLOBALS[21]."\n";
+			echo "</pre>";
+			exit();
 	}
 
 	
@@ -39,21 +66,35 @@ class Piramide{
 			$this->Mostrar();
 			}
 		$minodo = new nodo();
-		if ($minodo->vacio($pos, $this->lista[$pos] ) == 1){
-			
+		$posHijoIzq = (log($pos, 2)+ $pos + 1.05);
+		$posHijoIzq = round($posHijoIzq , 0, PHP_ROUND_HALF_UP);
+		$posHijoDer = (log($pos, 2)+ $pos + 2.05);
+		$posHijoDer = round($posHijoDer, 0, PHP_ROUND_HALF_UP);
+		
+
+		if ($minodo->vacio($pos, $GLOBALS[$pos] ) == 1){
+			$minodo->ResolverPadre($pos, $posHijoIzq, $posHijoDer);
 			$this->Resolver($pos+1);
 		}
 			
 		else{
-			
-			$minodo->ResolverPadre($pos, $this->lista[$pos]);
-			$minodo->ResolverHijo($pos, $this->lista[$pos]);
+			if ($pos==1) {
+			$minodo->ResolverHijo($pos, $GLOBALS[$pos]);
 			$this->Resolver($pos+1);
+			}
+			if ($pos<17){
+			$minodo->ResolverHijo($pos, $GLOBALS[$pos]);
+			$this->Resolver($pos+1);
+			}
+			else
+			{
+			$this->Resolver($pos+1);
+			}
 		}
 	}
 
 	function Agregar($pos, $val){
-		$this->lista[$pos] = $val;
+		$GLOBALS[$pos] = $val;
 	}
 
 	
@@ -61,58 +102,64 @@ class Piramide{
 
 
 class nodo extends Piramide{
+var $lista;
 	function vacio($pos, $val){
 		if (empty($val)){
 			return (1);
 		}
 	}
 
-	function ResolverPadre($pos, $val){
-		$valHnoIzq = $this->Camilo($pos-1);
-		$valHnoDer = $this->Camilo($pos+1);
-		
-		if (empty($valHnoIzq)){}
-		else
-		{
-			$valPadreIzq = $valHnoIzq + $val;
-			$this->Agregar($pos-1, $valPadreIzq);
-		}
-		if (empty($valHnoDer)){}
-		else
-		{
-			$valPadreDer =$valHnoDer + $val;
-			$this->Agregar($pos-1, $valPadreDer);
-		}
-	}	
+	function ResolverPadre($pos, $posHijoIzq, $posHijoDer){
 
+		if($pos==6){
+			$posHijoIzq=9;
+			$posHijoDer=10;
+		}
+		if($pos==3){
+			$posHijoIzq=5;
+			$posHijoDer=6;
+		}
+		$valHijoIzq=$this->devolver($posHijoIzq);
+		$valHijoDer=$this->devolver($posHijoDer);
+		
+		if (empty($valHijoIzq) and empty($valHijoDer)){}
+		else
+		{
+			$val = $valHijoIzq + $valHijoDer;
+			$this->Agregar($pos, $val);
+			}
+			
+	}
+	
+	
 	function ResolverHijo($pos, $val){
 
 
-		$posHijoIzq = (log($pos, 2)+ $pos + 2);
+		$posHijoIzq = (log($pos, 2)+ $pos + 1.05);
 		$posHijoIzq = round($posHijoIzq , 0, PHP_ROUND_HALF_UP);
-		
-		$posHijoDer = (log($pos, 2)+ $pos + 3);
+		$posHijoDer = (log($pos, 2)+ $pos + 2.05);
 		$posHijoDer = round($posHijoDer, 0, PHP_ROUND_HALF_UP);
-		$valHijoIzq = $this->Camilo($posHijoIzq);
-		$valHijoDer = $this->Camilo($posHijoDer);
-		
+
+		$valHijoIzq = $this->devolver($posHijoIzq);
+		$valHijoDer = $this->devolver($posHijoDer);
 		
 		if (empty($valHijoIzq)){}
 		else
 		{
-			
+			if (empty($valHijoDer)){
 			$valHijoDer =  $val - $valHijoIzq;
 			$this->Agregar($posHijoDer, $valHijoDer);
-
 		}
 		if (empty($valHijoDer) ){}
 		else
 		{	
+			if (empty($valHijoIzq)){
 			$valHijoIzq = $val - $valHijoDer;
 			$this->Agregar($posHijoIzq, $valHijoIzq);
-
+		}
 		}
 	}
+}
 }		
 
 
